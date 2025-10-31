@@ -14,7 +14,7 @@ jobs:
 
     env:
       AWS_REGION: ${{ secrets.AWS_REGION }}
-      BUCKET_NAME: "day5-terraform-state-bucket1234"   # your existing S3 state bucket
+      BUCKET_NAME: "day5-terrform-state-bucket1234"   # your existing S3 state bucket
 
     steps:
       - name: Checkout repository
