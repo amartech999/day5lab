@@ -1,7 +1,7 @@
 # Web Tier URLs (direct EC2 access)
 output "web_tier_urls" {
   description = "Public URLs for Web Tier EC2s"
-  value = [for ip in aws_instance.web[*].public_ip : "http://${ip}"]
+  value       = [for ip in aws_instance.web[*].public_ip : "http://${ip}"]
 }
 
 # Application Load Balancer DNS URL
@@ -13,7 +13,7 @@ output "app_load_balancer_url" {
 # App Tier (direct EC2 fallback, not through ALB)
 output "app_tier_urls" {
   description = "Direct URLs for App Tier EC2s (port 8080)"
-  value = [for ip in aws_instance.app[*].public_ip : "http://${ip}:8080"]
+  value       = [for ip in aws_instance.app[*].public_ip : "http://${ip}:8080"]
 }
 
 # Database Instance Public IP

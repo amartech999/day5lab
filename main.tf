@@ -1,6 +1,6 @@
 provider "aws" {
   region  = "us-east-1"
-  profile = "default"   # or your exact profile name
+  profile = "default" # or your exact profile name
 }
 
 # ------------------ VPC ------------------
@@ -8,7 +8,7 @@ resource "aws_vpc" "main_vpc" {
   cidr_block           = var.vpc_cidr
   enable_dns_support   = true
   enable_dns_hostnames = true
-  tags = { Name = "demo-vpc" }
+  tags                 = { Name = "demo-vpc" }
 }
 
 # ------------------ Subnets ------------------
@@ -17,7 +17,7 @@ resource "aws_subnet" "web_subnet" {
   cidr_block              = var.web_subnet_cidr
   availability_zone       = "us-east-1a"
   map_public_ip_on_launch = true
-  tags = { Name = "web-subnet" }
+  tags                    = { Name = "web-subnet" }
 }
 
 resource "aws_subnet" "app_subnet" {
@@ -25,7 +25,7 @@ resource "aws_subnet" "app_subnet" {
   cidr_block              = var.app_subnet_cidr
   availability_zone       = "us-east-1b"
   map_public_ip_on_launch = true
-  tags = { Name = "app-subnet" }
+  tags                    = { Name = "app-subnet" }
 }
 
 resource "aws_subnet" "db_subnet" {
@@ -33,7 +33,7 @@ resource "aws_subnet" "db_subnet" {
   cidr_block              = var.db_subnet_cidr
   availability_zone       = "us-east-1c"
   map_public_ip_on_launch = true
-  tags = { Name = "db-subnet" }
+  tags                    = { Name = "db-subnet" }
 }
 
 # ------------------ Internet Gateway & Routing ------------------
@@ -154,12 +154,12 @@ resource "aws_security_group" "db_sg" {
 # ------------------ EC2 Instances ------------------
 # Web Tier (Simple HTTP Server)
 resource "aws_instance" "web" {
-  count         = 2
-  ami           = var.ami_id
-  instance_type = var.instance_type
-  subnet_id     = aws_subnet.web_subnet.id
+  count                  = 2
+  ami                    = var.ami_id
+  instance_type          = var.instance_type
+  subnet_id              = aws_subnet.web_subnet.id
   vpc_security_group_ids = [aws_security_group.web_sg.id]
-  key_name      = var.key_name
+  key_name               = var.key_name
 
   user_data = file("scripts/web_setup.sh")
 
@@ -168,12 +168,12 @@ resource "aws_instance" "web" {
 
 # Application Tier (Flask API)
 resource "aws_instance" "app" {
-  count         = 2
-  ami           = var.ami_id
-  instance_type = var.instance_type
-  subnet_id     = aws_subnet.app_subnet.id
+  count                  = 2
+  ami                    = var.ami_id
+  instance_type          = var.instance_type
+  subnet_id              = aws_subnet.app_subnet.id
   vpc_security_group_ids = [aws_security_group.app_sg.id]
-  key_name      = var.key_name
+  key_name               = var.key_name
   #security_groups = [aws_security_group.app_sg.name]
 
   user_data = file("${path.module}/scripts/app_setup.sh")
@@ -183,11 +183,11 @@ resource "aws_instance" "app" {
 
 # DB Tier (MySQL)
 resource "aws_instance" "db" {
-  ami           = var.ami_id
-  instance_type = var.instance_type
-  subnet_id     = aws_subnet.db_subnet.id
+  ami                    = var.ami_id
+  instance_type          = var.instance_type
+  subnet_id              = aws_subnet.db_subnet.id
   vpc_security_group_ids = [aws_security_group.db_sg.id]
-  key_name      = var.key_name
+  key_name               = var.key_name
 
   user_data = file("scripts/db_setup.sh")
 
@@ -225,7 +225,7 @@ resource "aws_lb" "app_alb" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
-  subnets            = [
+  subnets = [
     aws_subnet.web_subnet.id,
     aws_subnet.app_subnet.id
   ]
