@@ -35,7 +35,7 @@ jobs:
 
       - name: Ensure S3 bucket exists
         run: |
-          BUCKET_NAME="my-terraform-state-bucket"
+          BUCKET_NAME="day5-terrform-state-bucket1234"
           REGION="${{ env.AWS_REGION }}"
 
           if ! aws s3api head-bucket --bucket "$BUCKET_NAME" 2>/dev/null; then
