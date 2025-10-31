@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket = "day5-terrform-state-bucket1234"   # the bucket you created
+    bucket = "day5-terrform-state-bucket1234"
     key    = "global/terraform.tfstate"    # the path inside that bucket
     region = "us-east-1"                   # your AWS region
   }
