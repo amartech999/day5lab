@@ -1,9 +1,13 @@
 #!/bin/bash
 sudo yum update -y
-sudo yum install -y python3 python3-pip
+sudo yum install -y python3 python3-pip curl
 
 mkdir -p /home/ec2-user/app
 cd /home/ec2-user/app
+
+# Fetch instance ID and hostname
+INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+HOSTNAME=$(hostname)
 
 cat <<EOF > app.py
 from flask import Flask
@@ -11,7 +15,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return "Hello from Application Tier!"
+    return "Hello from Application Tier!\\nInstance ID: ${INSTANCE_ID}\\nHostname: ${HOSTNAME}"
 
 @app.route('/health')
 def health():
