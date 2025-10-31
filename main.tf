@@ -1,8 +1,3 @@
-provider "aws" {
-  region  = "us-east-1"
-  profile = "default" # or your exact profile name
-}
-
 # ------------------ VPC ------------------
 resource "aws_vpc" "main_vpc" {
   cidr_block           = var.vpc_cidr
