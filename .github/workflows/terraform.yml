@@ -33,8 +33,23 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      # ✅ Ensure S3 bucket exists before Terraform init
+      - name: Ensure S3 bucket exists
+        run: |
+          BUCKET_NAME="my-terraform-state-bucket"
+          REGION="${{ env.AWS_REGION }}"
+          if ! aws s3api head-bucket --bucket "$BUCKET_NAME" 2>/dev/null; then
+            echo "Bucket not found. Creating..."
+            aws s3api create-bucket \
+              --bucket "$BUCKET_NAME" \
+              --region "$REGION" \
+              --create-bucket-configuration LocationConstraint="$REGION"
+          else
+            echo "Bucket already exists."
+          fi
+
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -reconfigure -input=false
 
       - name: Terraform Format Check
         run: terraform fmt -recursive
