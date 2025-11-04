@@ -23,7 +23,7 @@ variable "db_subnet_cidr" {
 variable "ami_id" {
   description = "AMI for EC2 instances"
   type        = string
-  default     = "ami-0bdd88bd06d16ba03" # Amazon Linux 2 (for ap-south-1)
+  default     = "ami-0c02fb55956c7d316" # Amazon Linux 2 (for ap-south-1)
 }
 
 variable "instance_type" {
