@@ -1,6 +1,6 @@
 #!/bin/bash
 sudo yum update -y
-sudo yum install -y python3 python3-pip -y
+sudo yum install -y python3 python3-pip
 
 mkdir -p /home/ec2-user/app
 cd /home/ec2-user/app

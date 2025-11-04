@@ -178,6 +178,7 @@ resource "aws_security_group" "db_sg" {
 }
 
 # ------------------ EC2 Instances ------------------
+# Web Tier (Apache + Reverse Proxy)
 resource "aws_instance" "web" {
   count                  = 2
   ami                    = var.ami_id
@@ -186,15 +187,16 @@ resource "aws_instance" "web" {
   vpc_security_group_ids = [aws_security_group.web_sg.id]
   key_name               = var.key_name
 
-  # Pass app private IPs as environment variable
   user_data = templatefile("${path.module}/scripts/web_setup.sh", {
     app1_ip = aws_instance.app[0].private_ip
     app2_ip = aws_instance.app[1].private_ip
   })
 
   depends_on = [aws_instance.app]
+
   tags = { Name = "web-${count.index + 1}" }
 }
+
 
 resource "aws_instance" "app" {
   count                  = 2
