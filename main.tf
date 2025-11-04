@@ -198,6 +198,7 @@ resource "aws_instance" "web" {
 }
 
 
+
 resource "aws_instance" "app" {
   count                  = 2
   ami                    = var.ami_id
