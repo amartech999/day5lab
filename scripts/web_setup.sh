@@ -29,7 +29,7 @@ fi
 echo "<h1>Hello from Web Server $(hostname)</h1>" > /var/www/html/index.html
 
 # Proxy load balancing config
-cat <<EOF | tee /etc/${WEB_SERVICE}/conf.d/proxy.conf >/dev/null
+cat <<EOF | tee /etc/$${WEB_SERVICE}/conf.d/proxy.conf >/dev/null
 <VirtualHost *:80>
     ProxyPreserveHost On
     <Proxy balancer://appcluster>
@@ -46,4 +46,3 @@ EOF
 sudo systemctl enable $${WEB_SERVICE}
 sudo systemctl restart $${WEB_SERVICE}
 sudo systemctl status $${WEB_SERVICE} --no-pager
-
