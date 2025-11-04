@@ -1,17 +1,18 @@
 #!/bin/bash
 sudo yum update -y
-sudo yum install -y python3 python3-pip
+sudo yum install -y python3 python3-pip -y
 
 mkdir -p /home/ec2-user/app
 cd /home/ec2-user/app
 
 cat <<EOF > app.py
 from flask import Flask
+import socket
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return "Hello from Application Tier!"
+    return f"Hello from Application Tier on {socket.gethostname()}"
 
 @app.route('/health')
 def health():
