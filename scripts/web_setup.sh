@@ -42,6 +42,8 @@ cat <<EOF | tee /etc/${WEB_SERVICE}/conf.d/proxy.conf >/dev/null
 </VirtualHost>
 EOF
 
-systemctl enable ${WEB_SERVICE}
-systemctl restart ${WEB_SERVICE}
-systemctl status ${WEB_SERVICE} --no-pager
+# Enable and start service
+sudo systemctl enable $${WEB_SERVICE}
+sudo systemctl restart $${WEB_SERVICE}
+sudo systemctl status $${WEB_SERVICE} --no-pager
+
